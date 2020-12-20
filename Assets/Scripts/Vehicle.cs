@@ -7,7 +7,7 @@ public class Vehicle : MonoBehaviour
     private Node _objective;
     private Rigidbody _rb;
 
-    private const float _speed = 10f;
+    private const float _speed = 20f;
     private const float _torque = 0.1f;
 
     private void Start()
