@@ -8,7 +8,7 @@ public class Vehicle : MonoBehaviour
     private Rigidbody _rb;
 
     private const float _speed = 10f;
-    private const float _torque = 1f;
+    private const float _torque = 0.1f;
 
     private void Start()
     {
@@ -23,7 +23,12 @@ public class Vehicle : MonoBehaviour
         if (_objective == null) // No objective
             return;
 
-        _rb.velocity = transform.forward * _speed;
-        // transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.FromToRotation(transform.position, _objective.transform.position), _torque);
+        _rb.velocity = transform.forward * _speed; 
+        var rot = Quaternion.LookRotation(_objective.transform.position - transform.position);
+        rot = Quaternion.Slerp(transform.rotation, rot, _torque);
+        _rb.MoveRotation(rot);
+
+        if (Vector3.Distance(_objective.transform.position, transform.position) < 1f)
+            _objective = _objective.NextNode;
     }
 }
