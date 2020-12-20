@@ -11,7 +11,6 @@ public class Road : MonoBehaviour
         {
             if (node.NextNode == null)
             {
-                Debug.Log("putain: " + allNodes.Where(x => x != node).Count());
                 var closest = allNodes.Where(x => x != node).OrderBy(x => Vector3.Distance(x.transform.position, node.transform.position)).FirstOrDefault();
                 Assert.IsNotNull(closest);
                 node.NextNode = closest;

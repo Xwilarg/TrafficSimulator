@@ -8,7 +8,6 @@ public class DebugManager : MonoBehaviour
         foreach (var node in GameObject.FindGameObjectsWithTag("Node"))
         {
             var nodeC = node.GetComponent<Node>();
-            Debug.Log(nodeC.name);
             if (nodeC.NextNode != null)
             {
                 Gizmos.DrawLine(nodeC.transform.position, nodeC.NextNode.transform.position);
