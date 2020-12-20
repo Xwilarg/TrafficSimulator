@@ -43,7 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab65f26ae44d24c9349c8f6ce66705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 1672173476446693475}
+  NextNodes:
+  - {fileID: 1672173476446693475}
 --- !u!1 &1672173475175706589
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,7 +88,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab65f26ae44d24c9349c8f6ce66705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 1672173476996467558}
+  NextNodes:
+  - {fileID: 1672173476996467558}
 --- !u!1 &1672173475285213235
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab65f26ae44d24c9349c8f6ce66705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 1672173475823728770}
+  NextNodes:
+  - {fileID: 1672173475823728770}
 --- !u!1 &1672173475357858583
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab65f26ae44d24c9349c8f6ce66705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 1672173475285213232}
+  NextNodes:
+  - {fileID: 1672173475285213232}
 --- !u!1 &1672173475474207567
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +223,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab65f26ae44d24c9349c8f6ce66705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 1672173475168085501}
+  NextNodes:
+  - {fileID: 1672173475168085501}
 --- !u!1 &1672173475644524152
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,7 +378,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab65f26ae44d24c9349c8f6ce66705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 1672173476488952057}
+  NextNodes:
+  - {fileID: 1672173476488952057}
 --- !u!1 &1672173476446693485
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,7 +423,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab65f26ae44d24c9349c8f6ce66705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 1672173476547721004}
+  NextNodes:
+  - {fileID: 1672173476547721004}
 --- !u!1 &1672173476488952056
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,7 +468,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab65f26ae44d24c9349c8f6ce66705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 1672173477085949218}
+  NextNodes:
+  - {fileID: 1672173477085949218}
 --- !u!1 &1672173476547721006
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,7 +513,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab65f26ae44d24c9349c8f6ce66705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 1672173476860726368}
+  NextNodes:
+  - {fileID: 1672173476860726368}
 --- !u!1 &1672173476860726370
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,7 +558,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab65f26ae44d24c9349c8f6ce66705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 1672173476918629400}
+  NextNodes:
+  - {fileID: 1672173476918629400}
 --- !u!1 &1672173476918629402
 GameObject:
   m_ObjectHideFlags: 0
@@ -593,7 +603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab65f26ae44d24c9349c8f6ce66705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 0}
+  NextNodes: []
 --- !u!1 &1672173476996467552
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,7 +647,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab65f26ae44d24c9349c8f6ce66705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 1672173475357858580}
+  NextNodes:
+  - {fileID: 1672173475357858580}
 --- !u!1 &1672173477085949229
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,7 +692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab65f26ae44d24c9349c8f6ce66705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 0}
+  NextNodes: []
 --- !u!1 &1672173477200941825
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,4 +736,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab65f26ae44d24c9349c8f6ce66705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextNode: {fileID: 1672173475175706579}
+  NextNodes:
+  - {fileID: 1672173475175706579}

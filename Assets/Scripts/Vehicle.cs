@@ -7,7 +7,7 @@ public class Vehicle : MonoBehaviour
     private Node _objective;
     private Rigidbody _rb;
 
-    private const float _speed = 20f;
+    private const float _speed = 10f;
     private const float _torque = 0.1f;
 
     private void Start()
@@ -29,6 +29,8 @@ public class Vehicle : MonoBehaviour
         _rb.MoveRotation(rot);
 
         if (Vector3.Distance(_objective.transform.position, transform.position) < 1f)
-            _objective = _objective.NextNode;
+        {
+            _objective = _objective.NextNodes[Random.Range(0, _objective.NextNodes.Length)];
+        }
     }
 }
