@@ -8,7 +8,6 @@ public class Node : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(NextNodes.Length);
         if (NextNodes.Length == 0)
         {
             var allNodes = GameObject.FindGameObjectsWithTag("Node").Select(x => x.GetComponent<Node>());
