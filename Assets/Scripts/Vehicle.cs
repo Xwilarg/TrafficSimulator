@@ -4,29 +4,25 @@ using UnityEngine.Assertions;
 
 public class Vehicle : MonoBehaviour
 {
-    private Node _objective;
-    private Rigidbody _rb;
+    private Node _objective; // Where the car need to go
+    private Rigidbody _rb; // Rigidbody of the car
 
-    private const float _speed = 15f;
-    private const float _acceleration = .05f;
-    private const float _torque = 0.1f;
-    private const float _vision = 10f;
-    private const float _sideVision = 8f;
     private float _lastSpeed = 0f; // Last speed the car went by
 
-    private readonly float[] _rangeCheck = new[] { -.3f, 0f, .3f };
-    private readonly float[] _sideRangeCheck = new[] { -.9f, -.6f, .6f, .9f };
+    [SerializeField]
+    private SO.VehicleInfo _info; // Information about the vehicle behavior
 
-    private TextMesh _infoText;
+    private TextMesh _infoText; // Debug information displayed on top of the vehicle
 
     private VehicleBehavior _currBehavior = VehicleBehavior.NONE;
-    private float _ignoreNextStopTimer = 0f;
+    private float _ignoreNextStopTimer = 0f; // TMP
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _infoText = GetComponentInChildren<TextMesh>();
 
+        // Get closest objective node
         _objective = GameObject.FindGameObjectsWithTag("Node").OrderBy(x => Vector3.Distance(x.transform.position, transform.position)).FirstOrDefault()?.GetComponent<Node>();
         Assert.IsNotNull(_objective, "No node found");
     }
@@ -36,17 +32,21 @@ public class Vehicle : MonoBehaviour
         if (_objective == null) // No objective
             return;
 
-        var objVelocity = transform.forward * _speed; 
+        // Base velocity
+        var objVelocity = transform.forward * _info.Speed;
+
+        // Rotate towards objective
         var rot = Quaternion.LookRotation(_objective.transform.position - transform.position);
-        rot = Quaternion.Slerp(transform.rotation, rot, _torque);
+        rot = Quaternion.Slerp(transform.rotation, rot, _info.Torque);
         _rb.MoveRotation(rot);
 
         float? mult = null; // Speed multiplicator to slow down the car
 
+        // We check for obstacles, if we detect something we lower the vehicle speed by having a multiplicator less than 1
         var objDistance = Vector3.Distance(_objective.transform.position, transform.position);
-        if (_currBehavior == VehicleBehavior.STOP && objDistance < _vision)
+        if (_currBehavior == VehicleBehavior.STOP && objDistance < _info.Vision)
         {
-            mult = CalculateSpeedFromObstacle(objDistance, _vision);
+            mult = CalculateSpeedFromObstacle(objDistance, _info.Vision);
             if (_lastSpeed < .2f)
             {
                 _currBehavior = VehicleBehavior.NONE;
@@ -60,9 +60,9 @@ public class Vehicle : MonoBehaviour
 
         if (mult == null)
         {
-            foreach (var r in _rangeCheck) // Object detection
+            foreach (var r in _info.RangeCheck) // Object detection
             {
-                var res = DetectObstacle(r, _vision);
+                var res = DetectObstacle(r, _info.Vision);
                 if (res != null)
                 {
                     mult = res;
@@ -72,9 +72,9 @@ public class Vehicle : MonoBehaviour
         }
         if (mult == null)
         {
-            foreach (var r in _sideRangeCheck) // Object detection
+            foreach (var r in _info.SideRangeCheck) // Object detection
             {
-                var res = DetectObstacle(r, _sideVision);
+                var res = DetectObstacle(r, _info.SideVision);
                 if (res != null)
                 {
                     mult = res;
@@ -84,7 +84,7 @@ public class Vehicle : MonoBehaviour
         }
         if (mult != null)
             objVelocity *= mult.Value;
-        var currSpeed = Mathf.Lerp(_rb.velocity.magnitude, objVelocity.magnitude, _acceleration);
+        var currSpeed = Mathf.Lerp(_rb.velocity.magnitude, objVelocity.magnitude, _info.Acceleration);
         _rb.velocity = objVelocity.normalized * currSpeed;
         _infoText.text = "Current Speed: " + currSpeed + "\nBehavior: " + _currBehavior.ToString();
         _lastSpeed = currSpeed;
@@ -118,22 +118,22 @@ public class Vehicle : MonoBehaviour
 
     private float CalculateSpeedFromObstacle(float hitDistance, float visionDistance)
     {
-        var val = hitDistance * _speed / visionDistance; // Slow down depending of obstacle distance
-        var mult = val / _speed;
+        var val = hitDistance * _info.Speed / visionDistance; // Slow down depending of obstacle distance
+        var mult = val / _info.Speed;
         return mult;
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        foreach (var r in _rangeCheck)
+        foreach (var r in _info.RangeCheck)
         {
-            Gizmos.DrawLine(transform.position + transform.forward * 1.1f, transform.position + (transform.forward * 3f + transform.right * r).normalized * _vision);
+            Gizmos.DrawLine(transform.position + transform.forward * 1.1f, transform.position + (transform.forward * 3f + transform.right * r).normalized * _info.Vision);
         }
         Gizmos.color = Color.blue;
-        foreach (var r in _sideRangeCheck)
+        foreach (var r in _info.SideRangeCheck)
         {
-            Gizmos.DrawLine(transform.position + transform.forward * 1.1f, transform.position + (transform.forward * 3f + transform.right * r).normalized * _sideVision);
+            Gizmos.DrawLine(transform.position + transform.forward * 1.1f, transform.position + (transform.forward * 3f + transform.right * r).normalized * _info.SideVision);
         }
     }
 }
