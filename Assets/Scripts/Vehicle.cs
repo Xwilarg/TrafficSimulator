@@ -13,6 +13,9 @@ public class Vehicle : MonoBehaviour
     [SerializeField]
     private SO.VehicleInfo _info; // Information about the vehicle behavior
 
+    [SerializeField]
+    private SO.BehaviorInfo _behavior; // Define the driver behavior and how often he will apply rules
+
     private TextMesh _infoText; // Debug information displayed on top of the vehicle
 
     private VehicleBehavior _currBehavior = VehicleBehavior.NONE;
@@ -111,7 +114,8 @@ public class Vehicle : MonoBehaviour
                 switch (hit.collider.GetComponent<Sign>().SignType)
                 {
                     case SignType.STOP:
-                        _currBehavior = VehicleBehavior.STOP;
+                        if (Random.Range(0, 101) < _behavior.ChanceRespectStop)
+                            _currBehavior = VehicleBehavior.STOP;
                         _ignoreNextStopTimer = 2f;
                         break;
                 }
