@@ -28,7 +28,7 @@ namespace Debug
         public bool RaycastWithDebug(Vector3 origin, Vector3 direction, float size, Color color, out RaycastHit hit)
         {
             var isHit = Physics.Raycast(origin, direction, out hit, size);
-            _raycasts.Add(new RaycastInfo(origin, isHit ? hit.point : origin + (direction * size), color));
+            _raycasts.Add(new RaycastInfo(origin, isHit ? hit.point : origin + (direction.normalized * size), color));
             if (isHit)
                 _hits.Add((new HitInfo(hit.point, Color.red), DateTime.Now.AddMilliseconds(500)));
             return isHit;
