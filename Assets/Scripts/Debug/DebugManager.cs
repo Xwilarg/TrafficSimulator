@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Debug
 {
@@ -12,9 +13,20 @@ namespace Debug
         private Dictionary<string, RaycastInfo> _raycasts = new Dictionary<string, RaycastInfo>();
         private List<HitInfo> _hits = new List<HitInfo>();
 
+        private Vehicle _currentDebug = null;
+
+        [SerializeField]
+        private Text _debugText;
+        private GameObject _debugPanel;
+
         private void Awake()
         {
             S = this;
+        }
+
+        private void Start()
+        {
+            _debugPanel = _debugText.transform.parent.gameObject;
         }
 
         /// <summary>
@@ -37,6 +49,30 @@ namespace Debug
             if (isHit)
                 _hits.Add(new HitInfo(hit.point, Color.red));
             return isHit;
+        }
+
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
+                {
+                    if (hit.collider.GetComponent<Vehicle>() != null) // We clicked on a vehicle
+                    {
+                        _currentDebug = hit.collider.GetComponent<Vehicle>();
+                        _debugText.text = _currentDebug.GetDebugInformation();
+                        _debugPanel.SetActive(true);
+                    }
+                    else
+                        _debugPanel.SetActive(false);
+                }
+                else
+                    _debugPanel.SetActive(false);
+            }
+
+            // If we are following a car progression
+            if (_currentDebug != null)
+                _debugText.text = _currentDebug.GetDebugInformation();
         }
 
         private void OnDrawGizmos()

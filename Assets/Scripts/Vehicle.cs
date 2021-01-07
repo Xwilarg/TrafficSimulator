@@ -16,7 +16,7 @@ public class Vehicle : MonoBehaviour
     [SerializeField]
     private SO.BehaviorInfo _behavior; // Define the driver behavior and how often he will apply rules
 
-    private TextMesh _infoText; // Debug information displayed on top of the vehicle
+    private string _infoText = ""; // Debug information about the car
 
     private VehicleBehavior _currBehavior = VehicleBehavior.NONE;
     private float _ignoreNextStopTimer = 0f; // TMP
@@ -26,7 +26,6 @@ public class Vehicle : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _infoText = GetComponentInChildren<TextMesh>();
 
         // Get closest objective node
         _objective = GameObject.FindGameObjectsWithTag("Node").OrderBy(x => Vector3.Distance(x.transform.position, transform.position)).FirstOrDefault()?.GetComponent<Node>();
@@ -94,7 +93,7 @@ public class Vehicle : MonoBehaviour
             objVelocity *= mult.Value;
         var currSpeed = Mathf.Lerp(_rb.velocity.magnitude, objVelocity.magnitude, _info.Acceleration);
         _rb.velocity = objVelocity.normalized * currSpeed;
-        _infoText.text = "Current Speed: " + currSpeed + "\nBehavior: " + _currBehavior.ToString();
+        _infoText = "Current Speed: " + currSpeed + "\nBehavior: " + _currBehavior.ToString();
         _lastSpeed = currSpeed;
     }
 
@@ -132,4 +131,7 @@ public class Vehicle : MonoBehaviour
         var mult = val / _info.Speed;
         return mult;
     }
+
+    public string GetDebugInformation()
+        => _infoText;
 }
