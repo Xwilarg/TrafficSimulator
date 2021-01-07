@@ -1,3 +1,4 @@
+using Debug;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -62,7 +63,7 @@ public class Vehicle : MonoBehaviour
         {
             foreach (var r in _info.RangeCheck) // Object detection
             {
-                var res = DetectObstacle(r, _info.Vision);
+                var res = DetectObstacle(r, _info.Vision, Color.red);
                 if (res != null)
                 {
                     mult = res;
@@ -74,7 +75,7 @@ public class Vehicle : MonoBehaviour
         {
             foreach (var r in _info.SideRangeCheck) // Object detection
             {
-                var res = DetectObstacle(r, _info.SideVision);
+                var res = DetectObstacle(r, _info.SideVision, Color.blue);
                 if (res != null)
                 {
                     mult = res;
@@ -96,9 +97,9 @@ public class Vehicle : MonoBehaviour
             _ignoreNextStopTimer -= Time.deltaTime;
     }
 
-    private float? DetectObstacle(float dirOffset, float visionDist)
+    private float? DetectObstacle(float dirOffset, float visionDist, Color color)
     {
-        if (Physics.Raycast(transform.position + transform.forward * 1.1f, transform.forward * 3f + transform.right * dirOffset, out RaycastHit hit, visionDist))
+        if (DebugManager.S.RaycastWithDebug(transform.position + transform.forward * 1.1f, transform.forward * 3f + transform.right * dirOffset, visionDist, color, out RaycastHit hit))
         {
             if (hit.collider.CompareTag("Sign") && _ignoreNextStopTimer <= 0f) // The vehicle see a sign
             {
@@ -121,19 +122,5 @@ public class Vehicle : MonoBehaviour
         var val = hitDistance * _info.Speed / visionDistance; // Slow down depending of obstacle distance
         var mult = val / _info.Speed;
         return mult;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        foreach (var r in _info.RangeCheck)
-        {
-            Gizmos.DrawLine(transform.position + transform.forward * 1.1f, transform.position + (transform.forward * 3f + transform.right * r).normalized * _info.Vision);
-        }
-        Gizmos.color = Color.blue;
-        foreach (var r in _info.SideRangeCheck)
-        {
-            Gizmos.DrawLine(transform.position + transform.forward * 1.1f, transform.position + (transform.forward * 3f + transform.right * r).normalized * _info.SideVision);
-        }
     }
 }
