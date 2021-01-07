@@ -18,6 +18,8 @@ public class Vehicle : MonoBehaviour
     private VehicleBehavior _currBehavior = VehicleBehavior.NONE;
     private float _ignoreNextStopTimer = 0f; // TMP
 
+    private int _raycastId = 0; // Used to differenciate raycasts called from FixedUpdate
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -32,6 +34,8 @@ public class Vehicle : MonoBehaviour
     {
         if (_objective == null) // No objective
             return;
+
+        _raycastId = 0;
 
         // Base velocity
         var objVelocity = transform.forward * _info.Speed;
@@ -99,7 +103,8 @@ public class Vehicle : MonoBehaviour
 
     private float? DetectObstacle(float dirOffset, float visionDist, Color color)
     {
-        if (DebugManager.S.RaycastWithDebug(transform.position + transform.forward * 1.1f, transform.forward * 3f + transform.right * dirOffset, visionDist, color, out RaycastHit hit))
+        _raycastId++;
+        if (DebugManager.S.RaycastWithDebug(GetInstanceID() + "" + _raycastId, transform.position + transform.forward * 1.1f, transform.forward * 3f + transform.right * dirOffset, visionDist, color, out RaycastHit hit))
         {
             if (hit.collider.CompareTag("Sign") && _ignoreNextStopTimer <= 0f) // The vehicle see a sign
             {

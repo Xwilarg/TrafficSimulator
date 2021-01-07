@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Debug
 {
@@ -8,9 +9,11 @@ namespace Debug
         {
             Position = position;
             Color = color;
+            ExpireTime = DateTime.Now.AddMilliseconds(500);
         }
 
         public Vector3 Position;
         public Color Color;
+        public DateTime ExpireTime;
     }
 }

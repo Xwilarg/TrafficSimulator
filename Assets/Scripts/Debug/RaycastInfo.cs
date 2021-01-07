@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Debug
 {
@@ -9,10 +10,12 @@ namespace Debug
             Origin = origin;
             Destination = destination;
             Color = color;
+            ExpireTime = DateTime.Now.AddMilliseconds(200);
         }
 
         public Vector3 Origin;
         public Vector3 Destination;
         public Color Color;
+        public DateTime ExpireTime;
     }
 }
