@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace TrafficSimulator.Debug
@@ -57,7 +58,7 @@ namespace TrafficSimulator.Debug
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) // We did a left click, but not on an UI element
             {
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
                 {
@@ -121,6 +122,11 @@ namespace TrafficSimulator.Debug
                 if (DateTime.Now > _raycasts[currKey].ExpireTime)
                     _raycasts.Remove(currKey);
             }
+        }
+
+        public void BreakCurrentCar()
+        {
+            _currentDebug.Break();
         }
     }
 }

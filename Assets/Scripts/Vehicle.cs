@@ -26,6 +26,8 @@ namespace TrafficSimulator
 
         private int _raycastId = 0; // Used to differenciate raycasts called from FixedUpdate
 
+        private bool isBroken = false;
+
         private void Start()
         {
             _rb = GetComponent<Rigidbody>();
@@ -39,6 +41,12 @@ namespace TrafficSimulator
         {
             if (_objective == null) // No objective
                 return;
+
+            if (isBroken) // Wheels + brakes broken
+            {
+                _rb.velocity = _rb.velocity.normalized * _lastSpeed;
+                return;
+            }
 
             _raycastId = 0;
 
@@ -143,5 +151,8 @@ namespace TrafficSimulator
 
         public string GetDebugInformation()
             => _infoText;
+
+        public void Break()
+            => isBroken = true;
     }
 }
