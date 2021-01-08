@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Vehicle : MonoBehaviour
 {
     private Node _objective; // Where the car need to go
