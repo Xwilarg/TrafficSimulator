@@ -68,11 +68,12 @@ namespace TrafficSimulator
                 _objective = _objective.NextNodes[Random.Range(0, _objective.NextNodes.Length)];
             }
 
+            RaycastHit? closestObstable = null;
             if (mult == null)
             {
-                foreach (var r in _info.RangeCheck) // Object detection
+                foreach (var r in _info.RangeCheck) // Object detection in front
                 {
-                    var res = DetectObstacle(r, _info.Vision, Color.red);
+                    var res = DetectObstacle(r, _info.Vision, Color.red, out closestObstable);
                     if (res != null)
                     {
                         mult = res;
@@ -82,9 +83,9 @@ namespace TrafficSimulator
             }
             if (mult == null)
             {
-                foreach (var r in _info.SideRangeCheck) // Object detection
+                foreach (var r in _info.SideRangeCheck) // Object detection on the side
                 {
-                    var res = DetectObstacle(r, _info.SideVision, Color.blue);
+                    var res = DetectObstacle(r, _info.SideVision, Color.blue, out closestObstable);
                     if (res != null)
                     {
                         mult = res;
@@ -92,11 +93,14 @@ namespace TrafficSimulator
                     }
                 }
             }
+
             if (mult != null)
                 objVelocity *= mult.Value;
+
             var currSpeed = Mathf.Lerp(_rb.velocity.magnitude, objVelocity.magnitude, _info.Acceleration);
             _rb.velocity = objVelocity.normalized * currSpeed;
-            _infoText = "Current Speed: " + currSpeed + "\nBehavior: " + _currBehavior.ToString();
+            _infoText = "Current Speed: " + currSpeed + "\nBehavior: " + _currBehavior.ToString() + "\nClosest obstacle: "
+                + (closestObstable == null ? "None" : closestObstable.Value.collider.name + " (" + closestObstable.Value.distance + ")");
             _lastSpeed = currSpeed;
         }
 
@@ -106,11 +110,12 @@ namespace TrafficSimulator
                 _ignoreNextStopTimer -= Time.deltaTime;
         }
 
-        private float? DetectObstacle(float dirOffset, float visionDist, Color color)
+        private float? DetectObstacle(float dirOffset, float visionDist, Color color, out RaycastHit? hitInfo)
         {
             _raycastId++;
             if (DebugManager.S.RaycastWithDebug(GetInstanceID() + "" + _raycastId, transform.position + transform.forward * 1.1f, transform.forward * 3f + transform.right * dirOffset, visionDist, color, out RaycastHit hit))
             {
+                hitInfo = hit;
                 if (hit.collider.CompareTag("Sign") && _ignoreNextStopTimer <= 0f) // The vehicle see a sign
                 {
                     switch (hit.collider.GetComponent<Sign>().SignType)
@@ -125,6 +130,7 @@ namespace TrafficSimulator
                 else // Various other obstacle
                     return CalculateSpeedFromObstacle(hit.distance, visionDist);
             }
+            hitInfo = null;
             return null;
         }
 
