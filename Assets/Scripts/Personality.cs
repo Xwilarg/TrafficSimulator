@@ -1,5 +1,8 @@
-﻿public enum Personality
+﻿namespace TrafficSimulator
 {
-    RESPECTFUL,
-    DANGEROUS
+    public enum Personality
+    {
+        RESPECTFUL,
+        DANGEROUS
+    }
 }

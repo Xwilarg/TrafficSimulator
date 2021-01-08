@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SO
+namespace TrafficSimulator.SO
 {
     [CreateAssetMenu(menuName = "ScriptableObject/VehicleInfo", fileName = "VehicleInfo")]
     public class VehicleInfo : ScriptableObject

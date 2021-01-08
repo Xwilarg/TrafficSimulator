@@ -1,33 +1,36 @@
 ﻿using UnityEngine;
 
-public class Spawner : MonoBehaviour
+namespace TrafficSimulator
 {
-    [SerializeField]
-    private float _minTime, _maxTime;
-
-    [SerializeField]
-    private GameObject[] _prefabs;
-
-    private float _currTime;
-
-    private void Start()
+    public class Spawner : MonoBehaviour
     {
-        ResetTimer();
-    }
+        [SerializeField]
+        private float _minTime, _maxTime;
 
-    private void Update()
-    {
-        _currTime -= Time.deltaTime;
-        if (_currTime < 0f)
+        [SerializeField]
+        private GameObject[] _prefabs;
+
+        private float _currTime;
+
+        private void Start()
         {
-            var randomGO = _prefabs[Random.Range(0, _prefabs.Length)];
-            Instantiate(randomGO, transform).transform.position = transform.position;
             ResetTimer();
         }
-    }
 
-    private void ResetTimer()
-    {
-        _currTime = Random.Range(_minTime, _maxTime);
+        private void Update()
+        {
+            _currTime -= Time.deltaTime;
+            if (_currTime < 0f)
+            {
+                var randomGO = _prefabs[Random.Range(0, _prefabs.Length)];
+                Instantiate(randomGO, transform).transform.position = transform.position;
+                ResetTimer();
+            }
+        }
+
+        private void ResetTimer()
+        {
+            _currTime = Random.Range(_minTime, _maxTime);
+        }
     }
 }

@@ -1,5 +1,8 @@
-﻿public enum VehicleBehavior
+﻿namespace TrafficSimulator
 {
-    NONE,
-    STOP // Stop sign
+    public enum VehicleBehavior
+    {
+        NONE,
+        STOP // Stop sign
+    }
 }

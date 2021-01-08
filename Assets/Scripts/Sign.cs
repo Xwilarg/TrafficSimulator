@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
-public class Sign : MonoBehaviour
+namespace TrafficSimulator
 {
-    public SignType SignType;
+    public class Sign : MonoBehaviour
+    {
+        public SignType SignType;
+    }
 }

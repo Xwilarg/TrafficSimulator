@@ -1,4 +1,7 @@
-﻿public enum SignType
+﻿namespace TrafficSimulator
 {
-    STOP
+    public enum SignType
+    {
+        STOP
+    }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Debug
+namespace TrafficSimulator.Debug
 {
     public class DebugManager : MonoBehaviour
     {

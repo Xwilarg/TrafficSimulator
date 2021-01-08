@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Debug
+namespace TrafficSimulator.Debug
 {
     public struct HitInfo
     {

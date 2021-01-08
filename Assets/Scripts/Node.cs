@@ -2,18 +2,21 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Node : MonoBehaviour
+namespace TrafficSimulator
 {
-    public Node[] NextNodes;
-
-    private void Start()
+    public class Node : MonoBehaviour
     {
-        if (NextNodes.Length == 0)
+        public Node[] NextNodes;
+
+        private void Start()
         {
-            var allNodes = GameObject.FindGameObjectsWithTag("Node").Select(x => x.GetComponent<Node>());
-            var closest = allNodes.Where(x => x != this).OrderBy(x => Vector3.Distance(x.transform.position, transform.position)).FirstOrDefault();
-            Assert.IsNotNull(closest);
-            NextNodes = new[] { closest };
+            if (NextNodes.Length == 0)
+            {
+                var allNodes = GameObject.FindGameObjectsWithTag("Node").Select(x => x.GetComponent<Node>());
+                var closest = allNodes.Where(x => x != this).OrderBy(x => Vector3.Distance(x.transform.position, transform.position)).FirstOrDefault();
+                Assert.IsNotNull(closest);
+                NextNodes = new[] { closest };
+            }
         }
     }
 }

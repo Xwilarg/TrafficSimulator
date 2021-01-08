@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 
-public class DestroyOnTrigger : MonoBehaviour
+namespace TrafficSimulator
 {
-    private void OnTriggerEnter(Collider other)
+    public class DestroyOnTrigger : MonoBehaviour
     {
-        Destroy(other.gameObject);
+        private void OnTriggerEnter(Collider other)
+        {
+            Destroy(other.gameObject);
+        }
     }
 }
