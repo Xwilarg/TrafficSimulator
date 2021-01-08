@@ -1040,6 +1040,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DebugManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3158431531810645383, guid: 4e8f611c78da441429b29e16d1f7b8df, type: 3}
+      propertyPath: _pointerPrefab
+      value: 
+      objectReference: {fileID: 4542762728687701133, guid: a5a7e5f732f6d6644a23e6e012af5ebf, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e8f611c78da441429b29e16d1f7b8df, type: 3}
 --- !u!1001 &3824020356686640596

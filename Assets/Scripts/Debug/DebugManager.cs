@@ -19,6 +19,10 @@ namespace TrafficSimulator.Debug
         private Text _debugText;
         private GameObject _debugPanel;
 
+        [SerializeField]
+        private GameObject _pointerPrefab;
+        private GameObject _pointerInstance = null;
+
         private void Awake()
         {
             S = this;
@@ -62,12 +66,22 @@ namespace TrafficSimulator.Debug
                         _currentDebug = hit.collider.GetComponent<Vehicle>();
                         _debugText.text = _currentDebug.GetDebugInformation();
                         _debugPanel.SetActive(true);
+                        if (_pointerInstance == null)
+                            _pointerInstance = Instantiate(_pointerPrefab);
+                        _pointerInstance.transform.position = hit.collider.transform.position + (Vector3.up * 1.5f);
+                        _pointerInstance.transform.parent = hit.collider.transform;
                     }
                     else
+                    {
+                        Destroy(_pointerInstance);
                         _debugPanel.SetActive(false);
+                    }
                 }
                 else
+                {
+                    Destroy(_pointerInstance);
                     _debugPanel.SetActive(false);
+                }
             }
 
             // If we are following a car progression
