@@ -30,7 +30,9 @@ namespace TrafficSimulator.Vehicle.Sample
         {
             if (!_isBroken)
             {
+                var oldRot = _rb.rotation;
                 _rb.MoveRotation(rotation);
+                _rb.rotation = Quaternion.Euler(new Vector3(oldRot.x, _rb.rotation.eulerAngles.y, oldRot.z));
             }
         }
 
