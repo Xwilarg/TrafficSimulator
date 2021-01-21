@@ -3,15 +3,12 @@ using TrafficSimulator.Debug;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace TrafficSimulator
+namespace TrafficSimulator.Vehicle
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class Vehicle : MonoBehaviour
+    public class VehicleController : MonoBehaviour
     {
         private Node _objective; // Where the car need to go
-        private Rigidbody _rb; // Rigidbody of the car
-
-        private float _lastSpeed = 0f; // Last speed the car went by
 
         [SerializeField]
         private SO.VehicleInfo _info; // Information about the vehicle behavior
@@ -26,11 +23,15 @@ namespace TrafficSimulator
 
         private int _raycastId = 0; // Used to differenciate raycasts called from FixedUpdate
 
-        private bool isBroken = false;
+        private float _lastSpeed = 0f; // Last speed the car went by
+
+        // Command interface for this vehicle
+        private IVehicle _vehicle;
 
         private void Start()
         {
-            _rb = GetComponent<Rigidbody>();
+            _vehicle = GetComponent<IVehicle>();
+            Assert.IsNotNull(_vehicle, "No IVehicle implementation found");
 
             // Get closest objective node
             _objective = GameObject.FindGameObjectsWithTag("Node").OrderBy(x => Vector3.Distance(x.transform.position, transform.position)).FirstOrDefault()?.GetComponent<Node>();
@@ -42,23 +43,19 @@ namespace TrafficSimulator
             if (_objective == null) // No objective
                 return;
 
-            if (isBroken) // Wheels + brakes broken
-            {
-                _rb.velocity = _rb.velocity.normalized * _lastSpeed;
-                return;
-            }
-
             _raycastId = 0;
 
             // Base velocity
-            var objVelocity = transform.forward * _info.Speed;
+            var objVelocity = _info.Speed;
 
             // Rotate towards objective
             var rot = Quaternion.LookRotation(_objective.transform.position - transform.position);
             rot = Quaternion.Slerp(transform.rotation, rot, _info.Torque);
-            _rb.MoveRotation(rot);
+            _vehicle.SetObjectiveRotation(rot);
 
             float? mult = null; // Speed multiplicator to slow down the car
+
+            #region OBSTACLE_DETECTION
 
             // We check for obstacles, if we detect something we lower the vehicle speed by having a multiplicator less than 1
             var objDistance = Vector3.Distance(_objective.transform.position, transform.position);
@@ -102,14 +99,15 @@ namespace TrafficSimulator
                 }
             }
 
+            #endregion OBSTACLE_DETECTION
+
             if (mult != null)
                 objVelocity *= mult.Value;
 
-            var currSpeed = Mathf.Lerp(_rb.velocity.magnitude, objVelocity.magnitude, _info.Acceleration);
-            _rb.velocity = objVelocity.normalized * currSpeed;
-            _infoText = "Current Speed: " + currSpeed + "\nBehavior: " + _currBehavior.ToString() + "\nClosest obstacle: "
+            _vehicle.SetObjectiveSpeed(objVelocity);
+
+            _infoText = "Current Speed: " + _vehicle.GetCurrentSpeed() + "\nBehavior: " + _currBehavior.ToString() + "\nClosest obstacle: "
                 + (closestObstable == null ? "None" : closestObstable.Value.collider.name + " (" + closestObstable.Value.distance + ")");
-            _lastSpeed = currSpeed;
         }
 
         private void Update()
@@ -153,6 +151,6 @@ namespace TrafficSimulator
             => _infoText;
 
         public void Break()
-            => isBroken = true;
+            => _vehicle.Break();
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TrafficSimulator.Vehicle;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,7 +15,7 @@ namespace TrafficSimulator.Debug
         private Dictionary<string, RaycastInfo> _raycasts = new Dictionary<string, RaycastInfo>();
         private List<HitInfo> _hits = new List<HitInfo>();
 
-        private Vehicle _currentDebug = null;
+        private VehicleController _currentDebug = null;
 
         [SerializeField]
         private Text _debugText;
@@ -62,9 +63,9 @@ namespace TrafficSimulator.Debug
             {
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
                 {
-                    if (hit.collider.GetComponent<Vehicle>() != null) // We clicked on a vehicle
+                    if (hit.collider.GetComponent<VehicleController>() != null) // We clicked on a vehicle
                     {
-                        _currentDebug = hit.collider.GetComponent<Vehicle>();
+                        _currentDebug = hit.collider.GetComponent<VehicleController>();
                         _debugText.text = _currentDebug.GetDebugInformation();
                         _debugPanel.SetActive(true);
                         if (_pointerInstance == null)

@@ -1,4 +1,4 @@
-﻿namespace TrafficSimulator
+﻿namespace TrafficSimulator.Vehicle
 {
     public enum VehicleBehavior
     {
