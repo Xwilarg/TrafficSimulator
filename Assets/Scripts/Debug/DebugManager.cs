@@ -63,9 +63,9 @@ namespace TrafficSimulator.Debug
             {
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
                 {
-                    if (hit.collider.GetComponent<VehicleController>() != null) // We clicked on a vehicle
+                    if (GetComponentInParents<VehicleController>(hit.collider.gameObject) != null) // We clicked on a vehicle
                     {
-                        _currentDebug = hit.collider.GetComponent<VehicleController>();
+                        _currentDebug = GetComponentInParents<VehicleController>(hit.collider.gameObject);
                         _debugText.text = _currentDebug.GetDebugInformation();
                         _debugPanel.SetActive(true);
                         if (_pointerInstance == null)
@@ -89,6 +89,18 @@ namespace TrafficSimulator.Debug
             // If we are following a car progression
             if (_currentDebug != null)
                 _debugText.text = _currentDebug.GetDebugInformation();
+        }
+
+        public T GetComponentInParents<T>(GameObject go) where T : Component
+        {
+            do
+            {
+                var c = go.GetComponent<T>();
+                if (c != null)
+                    return c;
+                go = go.transform.parent.gameObject;
+            } while (go.transform.parent != null);
+            return null;
         }
 
         private void OnDrawGizmos()
