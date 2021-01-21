@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc1033ea55cd04343ace4e02fe7849ce, type: 3}
   m_Name: VehicleInfo
   m_EditorClassIdentifier: 
-  Speed: 15
+  Speed: 10
   Acceleration: 0.05
   Torque: 0.1
   Vision: 10

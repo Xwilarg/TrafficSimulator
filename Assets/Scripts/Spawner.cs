@@ -23,7 +23,8 @@ namespace TrafficSimulator
             if (_currTime < 0f)
             {
                 var randomGO = _prefabs[Random.Range(0, _prefabs.Length)];
-                Instantiate(randomGO, transform).transform.position = transform.position;
+                var go = Instantiate(randomGO, transform);
+                go.transform.position = transform.position;
                 ResetTimer();
             }
         }
