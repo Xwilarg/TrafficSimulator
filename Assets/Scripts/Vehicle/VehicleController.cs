@@ -23,8 +23,6 @@ namespace TrafficSimulator.Vehicle
 
         private int _raycastId = 0; // Used to differenciate raycasts called from FixedUpdate
 
-        private float _lastSpeed = 0f; // Last speed the car went by
-
         // Command interface for this vehicle
         private IVehicle _vehicle;
 
@@ -62,7 +60,7 @@ namespace TrafficSimulator.Vehicle
             if (_currBehavior == VehicleBehavior.STOP && objDistance < _info.Vision)
             {
                 mult = CalculateSpeedFromObstacle(objDistance, _info.Vision);
-                if (_lastSpeed < .2f)
+                if (_vehicle.GetCurrentSpeed() < .2f)
                 {
                     _currBehavior = VehicleBehavior.NONE;
                     mult = null;
