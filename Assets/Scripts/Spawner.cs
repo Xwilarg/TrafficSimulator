@@ -10,11 +10,17 @@ namespace TrafficSimulator
         [SerializeField]
         private GameObject[] _prefabs;
 
+        [SerializeField]
+        private bool _spawnOnStart;
+
         private float _currTime;
 
         private void Start()
         {
-            ResetTimer();
+            if (_spawnOnStart)
+                _currTime = 0f;
+            else
+                ResetTimer();
         }
 
         private void Update()

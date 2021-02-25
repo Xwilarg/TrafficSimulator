@@ -6,7 +6,7 @@ namespace TrafficSimulator
     {
         private void OnTriggerEnter(Collider other)
         {
-            Destroy(other.gameObject);
+            Destroy(other.transform.parent.gameObject);
         }
     }
 }
