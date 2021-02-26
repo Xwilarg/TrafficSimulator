@@ -57,9 +57,9 @@ namespace TrafficSimulator.Vehicle
 
             // We check for obstacles, if we detect something we lower the vehicle speed by having a multiplicator less than 1
             var objDistance = Vector3.Distance(_objective.transform.position, transform.position);
-            if (_currBehavior == VehicleBehavior.STOP && objDistance < _info.Vision)
+            if (_currBehavior == VehicleBehavior.STOP && objDistance < 10f)
             {
-                mult = CalculateSpeedFromObstacle(objDistance, _info.Vision);
+                mult = CalculateSpeedFromObstacle(objDistance, 10f);
                 if (_vehicle.GetCurrentSpeed() < .2f)
                 {
                     _currBehavior = VehicleBehavior.NONE;
@@ -76,23 +76,14 @@ namespace TrafficSimulator.Vehicle
             {
                 foreach (var r in _info.RangeCheck) // Object detection in front
                 {
-                    var res = DetectObstacle(r.Offset, r.Angle, _info.Vision, Color.red, out closestObstable);
-                    if (res != null)
+                    for (float angle = -r.AngleBase, offset = -r.OffsetBase; angle < r.AngleBase; r.AngleBase++, r.OffsetBase++)
                     {
-                        mult = res;
-                        break;
-                    }
-                }
-            }
-            if (mult == null)
-            {
-                foreach (var r in _info.SideRangeCheck) // Object detection on the side
-                {
-                    var res = DetectObstacle(r.Offset, r.Angle, _info.SideVision, Color.blue, out closestObstable);
-                    if (res != null)
-                    {
-                        mult = res;
-                        break;
+                        var res = DetectObstacle(offset, angle, r.Size, Color.red, out closestObstable);
+                        if (res != null)
+                        {
+                            mult = res;
+                            break;
+                        }
                     }
                 }
             }

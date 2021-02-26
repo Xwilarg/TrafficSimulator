@@ -24,6 +24,8 @@ MonoBehaviour:
   - Angle: 0.3
     Offset: 0
   SideRangeCheck:
+  - Angle: -1.2
+    Offset: -0.6
   - Angle: -0.9
     Offset: -0.4
   - Angle: -0.6
@@ -32,6 +34,8 @@ MonoBehaviour:
     Offset: 0.2
   - Angle: 0.9
     Offset: 0.4
+  - Angle: 1.2
+    Offset: 0.6
   SpeedCurve:
     serializedVersion: 2
     m_Curve:
