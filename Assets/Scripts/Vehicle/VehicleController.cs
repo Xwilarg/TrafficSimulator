@@ -76,7 +76,7 @@ namespace TrafficSimulator.Vehicle
             {
                 foreach (var r in _info.RangeCheck) // Object detection in front
                 {
-                    for (float angle = -r.AngleBase, offset = -r.OffsetBase; angle <= r.AngleBase; r.AngleStep++, r.OffsetStep++)
+                    for (float angle = -r.AngleBase, offset = -r.OffsetBase; angle <= r.AngleBase; angle += r.AngleStep, offset += r.OffsetStep)
                     {
                         var res = DetectObstacle(offset, angle, r.Size, Color.red, out closestObstable);
                         if (res != null)
