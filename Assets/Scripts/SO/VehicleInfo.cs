@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.UIElements;
+using UnityEngine;
 
 namespace TrafficSimulator.SO
 {
@@ -18,9 +19,11 @@ namespace TrafficSimulator.SO
         public float SideVision;
 
         [Tooltip("Range check for information in front of the car")]
-        public float[] RangeCheck;
+        public RangeInfo[] RangeCheck;
 
         [Tooltip("Range check for information on the side of the car")]
-        public float[] SideRangeCheck;
+        public RangeInfo[] SideRangeCheck;
+
+        public AnimationCurve SpeedCurve;
     }
 }

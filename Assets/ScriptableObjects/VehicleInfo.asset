@@ -13,16 +13,64 @@ MonoBehaviour:
   m_Name: VehicleInfo
   m_EditorClassIdentifier: 
   Speed: 10
-  Acceleration: 0.05
   Torque: 0.1
   Vision: 10
   SideVision: 8
   RangeCheck:
-  - -0.3
-  - 0
-  - 0.3
+  - Angle: -0.3
+    Offset: 0
+  - Angle: 0
+    Offset: 0
+  - Angle: 0.3
+    Offset: 0
   SideRangeCheck:
-  - -0.9
-  - -0.6
-  - 0.6
-  - 0.9
+  - Angle: -0.9
+    Offset: -0.4
+  - Angle: -0.6
+    Offset: -0.2
+  - Angle: 0.6
+    Offset: 0.2
+  - Angle: 0.9
+    Offset: 0.4
+  SpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.32636827
+      value: 0.32636827
+      inSlope: -0.0255784
+      outSlope: -0.0255784
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.40481022
+    - serializedVersion: 3
+      time: 0.76434475
+      value: 0.34036666
+      inSlope: 0.13190988
+      outSlope: 0.13190988
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2.7991455
+      outSlope: 2.7991455
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

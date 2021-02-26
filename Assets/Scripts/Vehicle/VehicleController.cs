@@ -76,7 +76,7 @@ namespace TrafficSimulator.Vehicle
             {
                 foreach (var r in _info.RangeCheck) // Object detection in front
                 {
-                    var res = DetectObstacle(r, _info.Vision, Color.red, out closestObstable);
+                    var res = DetectObstacle(r.Offset, r.Angle, _info.Vision, Color.red, out closestObstable);
                     if (res != null)
                     {
                         mult = res;
@@ -88,7 +88,7 @@ namespace TrafficSimulator.Vehicle
             {
                 foreach (var r in _info.SideRangeCheck) // Object detection on the side
                 {
-                    var res = DetectObstacle(r, _info.SideVision, Color.blue, out closestObstable);
+                    var res = DetectObstacle(r.Offset, r.Angle, _info.SideVision, Color.blue, out closestObstable);
                     if (res != null)
                     {
                         mult = res;
@@ -104,8 +104,11 @@ namespace TrafficSimulator.Vehicle
 
             _vehicle.SetObjectiveSpeed(objVelocity);
 
-            _infoText = "Current Speed: " + _vehicle.GetCurrentSpeed() + "\nBehavior: " + _currBehavior.ToString() + "\nClosest obstacle: "
-                + (closestObstable == null ? "None" : closestObstable.Value.collider.name + " (" + closestObstable.Value.distance + ")");
+            _infoText = "Current Speed: " + _vehicle.GetCurrentSpeed().ToString("0.00");
+            _infoText += "\nMultiplicator value: " + (mult == null ? "1" : (mult.Value.ToString("0.00") + ": " + _info.SpeedCurve.Evaluate(mult.Value).ToString("0.00")));
+            _infoText += "\nBehavior: " + _currBehavior.ToString();
+            _infoText += "\nClosest obstacle: "
+                + (closestObstable == null ? "None" : closestObstable.Value.collider.name + " (" + closestObstable.Value.distance.ToString("0.00") + ")");
         }
 
         private void Update()
@@ -114,10 +117,10 @@ namespace TrafficSimulator.Vehicle
                 _ignoreNextStopTimer -= Time.deltaTime;
         }
 
-        private float? DetectObstacle(float dirOffset, float visionDist, Color color, out RaycastHit? hitInfo)
+        private float? DetectObstacle(float offsetPos, float dirOffset, float visionDist, Color color, out RaycastHit? hitInfo)
         {
             _raycastId++;
-            if (DebugManager.S.RaycastWithDebug(GetInstanceID() + "" + _raycastId, transform.position + transform.forward * 1.1f, transform.forward * 3f + transform.right * dirOffset, visionDist, color, out RaycastHit hit))
+            if (DebugManager.S.RaycastWithDebug(GetInstanceID() + "" + _raycastId, (transform.position + transform.forward * 1.1f) + (transform.right * offsetPos), transform.forward * 3f + transform.right * dirOffset, visionDist, color, out RaycastHit hit))
             {
                 hitInfo = hit;
                 if (hit.collider.CompareTag("Sign") && _ignoreNextStopTimer <= 0f) // The vehicle see a sign

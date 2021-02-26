@@ -434,7 +434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _debugText: {fileID: 3158431531581523682}
-  _pointerPrefab: {fileID: 0}
+  _pointerPrefab: {fileID: 4542762728687701133, guid: a5a7e5f732f6d6644a23e6e012af5ebf, type: 3}
 --- !u!1 &3990322646747871760
 GameObject:
   m_ObjectHideFlags: 0
