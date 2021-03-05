@@ -81,7 +81,7 @@ namespace TrafficSimulator.Vehicle
                     float offset = r.OffsetBase;
                     for (int i = 0; i < r.NbIteration; i++)
                     {
-                        var res = DetectObstacle(offset, angle, r.Size, r.Type == SO.VisionType.FRONT ? Color.red : Color.blue, out closestObstable);
+                        var res = DetectObstacle(offset, angle, r.Size, r.Type == SO.VisionType.FRONT ? Color.blue : new Color(1f, .2f, 1f), out closestObstable);
                         if (res != null)
                         {
                             mult = res;
