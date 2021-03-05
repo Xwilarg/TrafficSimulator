@@ -7,6 +7,7 @@ namespace TrafficSimulator.SO
     {
         public float AngleBase, AngleStep;
         public float OffsetBase, OffsetStep;
+        public int NbIteration;
         public float Size;
     }
 }

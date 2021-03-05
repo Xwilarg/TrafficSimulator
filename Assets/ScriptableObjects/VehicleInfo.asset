@@ -15,15 +15,23 @@ MonoBehaviour:
   Speed: 10
   Torque: 0.1
   RangeCheck:
-  - AngleBase: 0.3
+  - AngleBase: -0.3
     AngleStep: 0.3
     OffsetBase: 0
     OffsetStep: 0
+    NbIteration: 3
     Size: 10
   - AngleBase: -1.2
-    AngleStep: 0.4
-    OffsetBase: -0.7
+    AngleStep: 0.3
+    OffsetBase: -0.4
     OffsetStep: 0.1
+    NbIteration: 3
+    Size: 7
+  - AngleBase: 1.2
+    AngleStep: -0.3
+    OffsetBase: 0.4
+    OffsetStep: -0.1
+    NbIteration: 3
     Size: 7
   SpeedCurve:
     serializedVersion: 2
