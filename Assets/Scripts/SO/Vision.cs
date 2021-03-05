@@ -9,5 +9,6 @@ namespace TrafficSimulator.SO
         public float OffsetBase, OffsetStep;
         public int NbIteration;
         public float Size;
+        public VisionType Type;
     }
 }

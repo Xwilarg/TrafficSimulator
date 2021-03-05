@@ -14,6 +14,7 @@ namespace TrafficSimulator.SO
         [Tooltip("Information check")]
         public Vision[] RangeCheck;
 
-        public AnimationCurve SpeedCurve;
+        public AnimationCurve FrontSpeedCurve;
+        public AnimationCurve SideSpeedCurve;
     }
 }

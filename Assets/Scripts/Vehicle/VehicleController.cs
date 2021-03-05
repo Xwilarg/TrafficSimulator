@@ -52,6 +52,7 @@ namespace TrafficSimulator.Vehicle
             _vehicle.SetObjectiveRotation(rot);
 
             float? mult = null; // Speed multiplicator to slow down the car
+            SO.VisionType? type = null;
 
             #region OBSTACLE_DETECTION
 
@@ -80,10 +81,11 @@ namespace TrafficSimulator.Vehicle
                     float offset = r.OffsetBase;
                     for (int i = 0; i < r.NbIteration; i++)
                     {
-                        var res = DetectObstacle(offset, angle, r.Size, Color.red, out closestObstable);
+                        var res = DetectObstacle(offset, angle, r.Size, r.Type == SO.VisionType.FRONT ? Color.red : Color.blue, out closestObstable);
                         if (res != null)
                         {
                             mult = res;
+                            type = r.Type;
                             break;
                         }
                         angle += r.AngleStep;
@@ -94,13 +96,21 @@ namespace TrafficSimulator.Vehicle
 
             #endregion OBSTACLE_DETECTION
 
+            AnimationCurve curve = null;
+            if (type != null)
+            {
+                if (type == SO.VisionType.FRONT) curve = _info.FrontSpeedCurve;
+                else if (type == SO.VisionType.SIDE) curve = _info.SideSpeedCurve;
+            }
+
             if (mult != null)
-                objVelocity *= mult.Value;
+                objVelocity *= curve == null ? mult.Value : curve.Evaluate(mult.Value);
 
             _vehicle.SetObjectiveSpeed(objVelocity);
-
             _infoText = "Current Speed: " + _vehicle.GetCurrentSpeed().ToString("0.00");
-            _infoText += "\nMultiplicator value: " + (mult == null ? "1" : (mult.Value.ToString("0.00") + ": " + _info.SpeedCurve.Evaluate(mult.Value).ToString("0.00")));
+            _infoText += "\nObjective Speed: " + objVelocity;
+            _infoText += "\nMultiplicator value: " + (mult == null ? "1" : (mult.Value.ToString("0.00") + ": " + curve.Evaluate(mult.Value).ToString("0.00")));
+            _infoText += "\nDetection type: " + type;
             _infoText += "\nBehavior: " + _currBehavior.ToString();
             _infoText += "\nClosest obstacle: "
                 + (closestObstable == null ? "None" : closestObstable.Value.collider.name + " (" + closestObstable.Value.distance.ToString("0.00") + ")");
