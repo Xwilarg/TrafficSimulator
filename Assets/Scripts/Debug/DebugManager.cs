@@ -44,9 +44,9 @@ namespace TrafficSimulator.Debug
         /// <param name="color">Color in which the raycast will be displayed</param>
         /// <param name="hit">Information returned about the raycast</param>
         /// <returns>Boolean telling if the raycast hit something or not</returns>
-        public bool RaycastWithDebug(string id, Vector3 origin, Vector3 direction, float size, Color color, out RaycastHit hit)
+        public bool RaycastWithDebug(string id, Vector3 origin, Vector3 direction, float size, Color color, out RaycastHit hit, int layer)
         {
-            var isHit = Physics.Raycast(origin, direction, out hit, size);
+            var isHit = Physics.Raycast(origin, direction, out hit, size, layer);
             var raycast = new RaycastInfo(origin, isHit ? hit.point : origin + (direction.normalized * size), color);
             if (_raycasts.ContainsKey(id))
                 _raycasts[id] = raycast;

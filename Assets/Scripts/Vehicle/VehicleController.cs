@@ -64,6 +64,19 @@ namespace TrafficSimulator.Vehicle
                 if (_vehicle.GetCurrentSpeed() < .2f)
                 {
                     _currBehavior = VehicleBehavior.NONE;
+                    for (float i = 0; i <= 10f; i+=.2f)
+                    {
+                        if (DebugManager.S.RaycastWithDebug(GetInstanceID() + "_STOP" + i, transform.position + transform.forward * 1.1f,
+                            transform.forward * 3f + transform.right * i, 30f, new Color(1f, .7f, 0f), out RaycastHit hit, ~(1 << 6)))
+                        {
+                            if (!hit.collider.CompareTag("Sign"))
+                            {
+                                _currBehavior = VehicleBehavior.STOP;
+                                UnityEngine.Debug.Log("Found: " + hit.collider.name);
+                            }
+                            break;
+                        }
+                    }
                     mult = null;
                 }
             }
@@ -109,7 +122,7 @@ namespace TrafficSimulator.Vehicle
             _vehicle.SetObjectiveSpeed(objVelocity);
             _infoText = "Current Speed: " + _vehicle.GetCurrentSpeed().ToString("0.00");
             _infoText += "\nObjective Speed: " + objVelocity;
-            _infoText += "\nMultiplicator value: " + (mult == null ? "1" : (mult.Value.ToString("0.00") + ": " + curve.Evaluate(mult.Value).ToString("0.00")));
+            //_infoText += "\nMultiplicator value: " + (mult == null ? "1" : (mult.Value.ToString("0.00") + ": " + curve.Evaluate(mult.Value).ToString("0.00")));
             _infoText += "\nDetection type: " + type;
             _infoText += "\nBehavior: " + _currBehavior.ToString();
             _infoText += "\nClosest obstacle: "
@@ -125,7 +138,7 @@ namespace TrafficSimulator.Vehicle
         private float? DetectObstacle(float offsetPos, float dirOffset, float visionDist, Color color, out RaycastHit? hitInfo)
         {
             _raycastId++;
-            if (DebugManager.S.RaycastWithDebug(GetInstanceID() + "" + _raycastId, (transform.position + transform.forward * 1.1f) + (transform.right * offsetPos), transform.forward * 3f + transform.right * dirOffset, visionDist, color, out RaycastHit hit))
+            if (DebugManager.S.RaycastWithDebug(GetInstanceID() + "" + _raycastId, (transform.position + transform.forward * 1.1f) + (transform.right * offsetPos), transform.forward * 3f + transform.right * dirOffset, visionDist, color, out RaycastHit hit, ~(1 << Physics.IgnoreRaycastLayer)))
             {
                 hitInfo = hit;
                 if (hit.collider.CompareTag("Sign") && _ignoreNextStopTimer <= 0f) // The vehicle see a sign
