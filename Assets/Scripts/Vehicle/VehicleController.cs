@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Text;
 using TrafficSimulator.Debug;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -16,7 +17,7 @@ namespace TrafficSimulator.Vehicle
         [SerializeField]
         private SO.BehaviorInfo _behavior; // Define the driver behavior and how often he will apply rules
 
-        private string _infoText = ""; // Debug information about the car
+        private readonly StringBuilder _infoText = new(); // Debug information about the car
 
         private VehicleBehavior _currBehavior = VehicleBehavior.NONE;
         private float _ignoreNextStopTimer = 0f; // TMP
@@ -119,13 +120,24 @@ namespace TrafficSimulator.Vehicle
                 objVelocity *= curve == null ? mult.Value : curve.Evaluate(mult.Value);
 
             _vehicle.SetObjectiveSpeed(objVelocity);
-            _infoText = "Current Speed: " + _vehicle.GetCurrentSpeed().ToString("0.00");
-            _infoText += "\nObjective Speed: " + objVelocity;
+
+            _infoText.Clear();
+
+            _infoText.AppendLine("<b>General</b>");
+            _infoText.AppendLine("Behavior: " + _currBehavior.ToString());
+            _infoText.AppendLine();
+
+            _infoText.AppendLine("<b>Speed</b>");
+            _infoText.AppendLine("Current: " + _vehicle.GetCurrentSpeed().ToString("0.00"));
+            _infoText.AppendLine("Objective: " + objVelocity);
+            _infoText.AppendLine();
             //_infoText += "\nMultiplicator value: " + (mult == null ? "1" : (mult.Value.ToString("0.00") + ": " + curve.Evaluate(mult.Value).ToString("0.00")));
-            _infoText += "\nDetection type: " + type;
-            _infoText += "\nBehavior: " + _currBehavior.ToString();
-            _infoText += "\nClosest obstacle: "
-                + (closestObstable == null ? "None" : closestObstable.Value.collider.name + " (" + closestObstable.Value.distance.ToString("0.00") + ")");
+
+            _infoText.AppendLine("<b>Collision Detection</b>");
+            _infoText.AppendLine("Detection type: " + type);
+            _infoText.AppendLine("Closest obstacle: "
+                + (closestObstable == null ? "None" : closestObstable.Value.collider.name + " (" + closestObstable.Value.distance.ToString("0.00") + ")"));
+            _infoText.AppendLine();
         }
 
         private void Update()
@@ -166,7 +178,7 @@ namespace TrafficSimulator.Vehicle
         }
 
         public string GetDebugInformation()
-            => _infoText;
+            => _infoText.ToString();
 
         public void Break()
             => _vehicle.Break();
