@@ -5,12 +5,15 @@ namespace TrafficSimulator
     public class Spawner : MonoBehaviour
     {
         [SerializeField]
+        [Tooltip("Time intervalle between 2 cars spawn")]
         private float _minTime, _maxTime;
 
         [SerializeField]
+        [Tooltip("Prefab to spawn")]
         private GameObject[] _prefabs;
 
         [SerializeField]
+        [Tooltip("Does spawn a car on start")]
         private bool _spawnOnStart;
 
         private float _currTime;

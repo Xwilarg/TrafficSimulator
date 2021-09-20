@@ -72,7 +72,6 @@ namespace TrafficSimulator.Vehicle
                             if (!hit.collider.CompareTag("Sign"))
                             {
                                 _currBehavior = VehicleBehavior.STOP;
-                                UnityEngine.Debug.Log("Found: " + hit.collider.name);
                             }
                             break;
                         }
