@@ -474,6 +474,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sign
       objectReference: {fileID: 0}
+    - target: {fileID: 9072146036156676725, guid: e6a6feae5277fc6428ba0413a61b75cc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6a6feae5277fc6428ba0413a61b75cc, type: 3}
 --- !u!1001 &979440628

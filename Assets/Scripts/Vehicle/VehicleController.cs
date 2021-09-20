@@ -133,6 +133,11 @@ namespace TrafficSimulator.Vehicle
             _infoText.AppendLine();
             //_infoText += "\nMultiplicator value: " + (mult == null ? "1" : (mult.Value.ToString("0.00") + ": " + curve.Evaluate(mult.Value).ToString("0.00")));
 
+            _infoText.AppendLine("<b>Objective</b>");
+            _infoText.AppendLine($"Position: ({_objective.transform.position.x};{_objective.transform.position.y})");
+            _infoText.AppendLine($"Distance with Vehicle: {Vector3.Distance(transform.position, _objective.transform.position)}");
+            _infoText.AppendLine();
+
             _infoText.AppendLine("<b>Collision Detection</b>");
             _infoText.AppendLine("Detection type: " + type);
             _infoText.AppendLine("Closest obstacle: "
