@@ -13,17 +13,21 @@ namespace TrafficSimulator.Debug
         public static DebugManager S { set; get; }
 
         private Dictionary<string, RaycastInfo> _raycasts = new Dictionary<string, RaycastInfo>();
-        private List<HitInfo> _hits = new List<HitInfo>();
-
-        private VehicleController _currentDebug = null;
+        private List<HitInfo> _hits = new();
 
         [SerializeField]
+        [Tooltip("Reference to child text to display")]
         private Text _debugText;
         private GameObject _debugPanel;
 
         [SerializeField]
+        [Tooltip("Prefab to display on top of vehicle we are targeting")]
         private GameObject _pointerPrefab;
         private GameObject _pointerInstance = null;
+
+        [SerializeField]
+        [Tooltip("Current object we are targetting, can be set in the inspector to target an object on game start")]
+        private VehicleController _currentDebug;
 
         private void Awake()
         {
@@ -33,6 +37,10 @@ namespace TrafficSimulator.Debug
         private void Start()
         {
             _debugPanel = _debugText.transform.parent.gameObject;
+            if (_currentDebug != null) // Value was set in the inspector
+            {
+                SetDebugInfo(_currentDebug);
+            }
         }
 
         /// <summary>
@@ -66,12 +74,7 @@ namespace TrafficSimulator.Debug
                     if (GetComponentInParents<VehicleController>(hit.collider.gameObject) != null) // We clicked on a vehicle
                     {
                         _currentDebug = GetComponentInParents<VehicleController>(hit.collider.gameObject);
-                        _debugText.text = _currentDebug.GetDebugInformation();
-                        _debugPanel.SetActive(true);
-                        if (_pointerInstance == null)
-                            _pointerInstance = Instantiate(_pointerPrefab);
-                        _pointerInstance.transform.position = hit.collider.transform.position + (Vector3.up * 1.5f);
-                        _pointerInstance.transform.parent = hit.collider.transform;
+                        SetDebugInfo(_currentDebug);
                     }
                     else
                     {
@@ -91,6 +94,22 @@ namespace TrafficSimulator.Debug
                 _debugText.text = _currentDebug.GetDebugInformation();
         }
 
+        private void SetDebugInfo(VehicleController vehicle)
+        {
+            _debugText.text = vehicle.GetDebugInformation();
+            _debugPanel.SetActive(true);
+            if (_pointerInstance == null)
+                _pointerInstance = Instantiate(_pointerPrefab);
+            _pointerInstance.transform.position = vehicle.gameObject.transform.position + (Vector3.up * 1.5f);
+            _pointerInstance.transform.parent = vehicle.gameObject.transform;
+        }
+
+        /// <summary>
+        /// Search a component by going throught the current object and all parents
+        /// </summary>
+        /// <typeparam name="T">Type of the component to search for</typeparam>
+        /// <param name="go">Starting object</param>
+        /// <returns>Component T or null if not found</returns>
         public T GetComponentInParents<T>(GameObject go) where T : Component
         {
             do
