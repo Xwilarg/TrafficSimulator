@@ -2,6 +2,9 @@
 
 namespace TrafficSimulator
 {
+    /// <summary>
+    /// Destroy any object that get triggers into the current one
+    /// </summary>
     public class DestroyOnTrigger : MonoBehaviour
     {
         private void OnTriggerEnter(Collider other)
